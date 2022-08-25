@@ -13,7 +13,7 @@ if (any(installed_packages == FALSE)) {
 invisible(lapply(packages, library, character.only = TRUE))
 
 # Read in data from 2017-2022A seasons and combine with any new stats from 2022B season
-afl_w_history <- read_csv("AFLW/AFLW History.csv") %>% 
+afl_w_history <- read_csv("AFLW History.csv") %>% 
   rbind(
     fetch_player_stats_afl(season="2022",comp="AFLW") %>% 
       filter(compSeason.shortName == "AFLW Season 7") %>% 
