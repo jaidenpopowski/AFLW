@@ -15,8 +15,7 @@ invisible(lapply(packages, library, character.only = TRUE))
 # Read in data from 2017-2022A seasons
 afl_w_history <- read_csv("AFLW History.csv")
 
-
-# calculate team totals across stat lines
+# Calculate team totals across stat lines
 game_totals <- afl_w_history %>% 
   select(-lastUpdated) %>% 
   group_by(providerId,team.name) %>% 
@@ -27,7 +26,7 @@ colnames(game_totals) <- paste("team",colnames(game_totals),sep=".")
 colnames(game_totals)[1] <- 'providerId'
 colnames(game_totals)[2] <- 'team.name'
 
-# collate final data
+# Collate final data
 data <- afl_w_history %>% 
   left_join(game_totals, by = c("providerId","team.name"))
 
