@@ -1,23 +1,21 @@
 # AFLW Historical Statistics
 
-# Package names
-packages <- c("tidyverse", "fitzRoy")
+# Install tidyverse for data manipulation
+if (!require("tidyverse")) install.packages("tidyverse")
 
-# Install packages not yet installed
-installed_packages <- packages %in% rownames(installed.packages())
-if (any(installed_packages == FALSE)) {
-  install.packages(packages[!installed_packages])
-}
+# Install the developer version of fitzRoy
+devtools::install_github("jimmyday12/fitzRoy")
 
-# Packages loading
-invisible(lapply(packages, library, character.only = TRUE))
+# Load libraries
+library(tidyverse)
+library(fitzRoy)
 
-# Read in data from 2017-2022A seasons and combine with any new stats from 2022B season
-afl_w_history <- read_csv("AFLW History.csv") %>% 
+# Read in data from 2017-2022A seasons
+afl_w_history <- read_csv("AFLW/AFLW History.csv") %>% 
   rbind(
-    fetch_player_stats_afl(season="2022",comp="AFLW") %>% 
+    test <- fetch_player_stats_afl(season="2022",comp="AFLW") %>% 
       filter(compSeason.shortName == "AFLW Season 7") %>% 
-      select(-extendedStats)
+      select(-extendedStats,-home.team.name,-away.team.name)
   )
 
 # calculate team totals across stat lines
